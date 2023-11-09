@@ -1,5 +1,7 @@
 # centos-boot-layered
 
+Images layered on top of the core [centos-boot](https://github.com/CentOS/centos-boot) base images.
+
 ## Badges
 
 | Badge                   | Description          | Service      |
