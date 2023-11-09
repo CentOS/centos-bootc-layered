@@ -2,6 +2,13 @@
 
 Images layered on top of the core [centos-boot](https://github.com/CentOS/centos-boot) base images.
 
+## Available images
+
+### `quay.io/centos-boot/fedora-boot-cloud:eln`
+
+This [simple image](fedora-boot-cloud/) builds on top of the base Fedora ELN image
+and adds cloud-init.
+
 ## Badges
 
 | Badge                   | Description          | Service      |
