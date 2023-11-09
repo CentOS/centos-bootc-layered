@@ -1,0 +1,44 @@
+---
+name: publish-image
+
+on:
+
+  push:
+    branches:
+    - main
+
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE: quay.io/centos-boot/builder
+
+jobs:
+
+  build-and-push-image:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Install qemu dependency
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
+
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Login to quay.io
+        run: buildah login --username ${{ secrets.QUAY_USER }} --password ${{ secrets.QUAY_PASSWORD }} quay.io
+
+      - name: Build
+        uses: redhat-actions/buildah-build@b4dc19b4ba891854660ab1f88a097d45aa158f76 # v2.12
+        with:
+          image: ${{ env.IMAGE }}
+          tags: latest
+          containerfiles: ./Containerfile
+          archs: s390x, arm64, amd64, ppc64le
+          context: .
+
+      - name: Push To quay.io
+        run: buildah manifest push --all ${{ env.IMAGE }} docker://${{ env.IMAGE }}
