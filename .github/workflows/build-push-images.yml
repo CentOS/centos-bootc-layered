@@ -33,6 +33,7 @@ jobs:
         with:
           image: quay.io/centos-boot/${{ env.dir }}
           tags: eln
+          oci: true
           containerfiles: ./${{ env.dir }}/Containerfile
           archs: amd64
           context: ${{ env.dir }}
