@@ -1,6 +1,6 @@
 # centos-boot-layered
 
-Images layered on top of the core [centos-boot](https://github.com/CentOS/centos-boot) base images.
+Images layered on top of the core [centos-boot][5] base images.
 
 ## Available images
 
@@ -20,3 +20,4 @@ and adds cloud-init.
 [2]: https://renovatebot.com
 [3]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit
 [4]: https://pre-commit.com/
+[5]: https://github.com/CentOS/centos-boot
