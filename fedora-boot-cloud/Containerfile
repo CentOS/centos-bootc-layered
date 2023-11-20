@@ -1,6 +1,6 @@
 # This image contains cloud-init, which makes it usable out of the box
 # for e.g. a pre-generated AWS or KVM guest system.
-FROM quay.io/centos-boot/fedora-tier-1-dev:eln
+FROM quay.io/centos-boot/fedora-tier-1-dev:eln@sha256:180c9390564e00e923af2baebbc6bb92463aba8e5271c578bf61a05580c45b12
 RUN dnf -y install cloud-init && \
     ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants && \
     rm /var/log/*.log /var/lib/dnf -rf && ostree container commit
