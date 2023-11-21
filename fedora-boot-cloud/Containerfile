@@ -4,3 +4,4 @@ FROM quay.io/centos-boot/fedora-tier-1-dev:eln@sha256:180c9390564e00e923af2baebb
 RUN dnf -y install cloud-init && \
     ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants && \
     rm /var/log/*.log /var/lib/dnf -rf && ostree container commit
+COPY usr usr
