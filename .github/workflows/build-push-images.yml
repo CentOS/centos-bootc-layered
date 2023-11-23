@@ -1,10 +1,9 @@
 name: publish-image
 
 on:
-
   push:
     branches:
-    - main
+      - main
 
   workflow_dispatch:
 
@@ -13,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      dir: fedora-boot-cloud
+      dir: fedora-bootc-cloud
 
     steps:
       - name: Install qemu dependency
@@ -31,7 +30,7 @@ jobs:
         id: build
         uses: redhat-actions/buildah-build@b4dc19b4ba891854660ab1f88a097d45aa158f76 # v2.12
         with:
-          image: quay.io/centos-boot/${{ env.dir }}
+          image: quay.io/centos-bootc/${{ env.dir }}
           tags: eln
           oci: true
           containerfiles: ./${{ env.dir }}/Containerfile

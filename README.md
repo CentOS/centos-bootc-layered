@@ -1,12 +1,12 @@
-# centos-boot-layered
+# centos-bootc-layered
 
-Images layered on top of the core [centos-boot][5] base images.
+Images layered on top of the core [centos-bootc][5] base images.
 
 ## Available images
 
-### `quay.io/centos-boot/fedora-boot-cloud:eln`
+### `quay.io/centos-boot/fedora-bootc-cloud:eln`
 
-This [simple image](fedora-boot-cloud/) builds on top of the base Fedora ELN image
+This [simple image](fedora-bootc-cloud/) builds on top of the base Fedora ELN image
 and adds cloud-init.
 
 ## Badges
@@ -20,4 +20,4 @@ and adds cloud-init.
 [2]: https://renovatebot.com
 [3]: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit
 [4]: https://pre-commit.com/
-[5]: https://github.com/CentOS/centos-boot
+[5]: https://github.com/CentOS/centos-bootc
