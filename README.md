@@ -4,10 +4,7 @@ Images layered on top of the core [centos-bootc][5] base images.
 
 ## Available images
 
-### `quay.io/centos-boot/fedora-bootc-cloud:eln`
-
-This [simple image](fedora-bootc-cloud/) builds on top of the base Fedora ELN image
-and adds cloud-init.
+The [cloud image](cloud) adds cloud-init.
 
 ## Badges
 

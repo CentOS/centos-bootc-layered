@@ -15,8 +15,17 @@ jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        os: [fedora, centos]
+        include:
+          - os: fedora
+            tag: eln
+          - os: centos
+            tag: stream9
+
     env:
-      dir: fedora-bootc-cloud
+      dir: cloud
 
     steps:
       - name: Install qemu dependency
@@ -35,10 +44,13 @@ jobs:
         id: build
         uses: redhat-actions/buildah-build@b4dc19b4ba891854660ab1f88a097d45aa158f76 # v2.12
         with:
-          image: quay.io/centos-bootc/${{ env.dir }}
-          tags: eln
+          image: quay.io/centos-bootc/${{ matrix.os }}-bootc-cloud
+          tags: ${{ matrix.tag }}
           oci: true
           containerfiles: ./${{ env.dir }}/Containerfile
+          extra-args: |
+            --from
+            quay.io/centos-bootc/${{ matrix.os }}-bootc-dev:${{ matrix.tag }}
           archs: amd64
           context: ${{ env.dir }}
 
