@@ -1,0 +1,73 @@
+name: Build and Push Cloud qcow2 Image
+
+on:
+  schedule:
+    - cron: "50 */4 * * *"
+
+  workflow_dispatch:
+
+env:
+  REGISTRY_NS: quay.io/centos-bootc
+  # TODO use quay once it supports artifacts
+  DISKIMAGE_REGISTRY: ghcr.io
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-and-push-cloud-qcow2-image:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # os: [fedora, centos]
+        os: [fedora]
+        include:
+          - os: fedora
+            tag: eln
+          #- os: centos
+          #  tag: stream9
+
+    env:
+      dir: cloud
+
+    steps:
+      # TODO replace with https://github.com/containers/buildah/issues/5091
+      - name: Install oras
+        run: |
+          VERSION="1.1.0"
+          curl -L "https://github.com/oras-project/oras/releases/download/v${VERSION}/oras_${VERSION}_linux_amd64.tar.gz" | tar zxvf -
+          sudo mv oras /usr/bin
+
+      - name: Install podman
+        run: sudo apt install podman
+
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Login to quay.io
+        run: podman login --authfile auth.json -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} ${{ env.DISKIMAGE_REGISTRY }}
+
+      - name: Build
+        run: |
+          mkdir -p output
+          sudo podman run --rm -it --privileged --pull=newer \
+            -v $(pwd)/output:/output \
+            ${{ env.REGISTRY_NS }}/bootc-image-builder:latest \
+            --type qcow2 \
+            ${{ env.REGISTRY_NS }}/${{ matrix.os }}-bootc-cloud:${{ matrix.tag }}
+
+      - name: Post b-i-b fixups
+        run: |
+          set -xeuo pipefail
+          # TODO: change b-i-b to support this in a nicer way
+          sudo chown -R -h $USER: output
+          # TODO: change b-i-b to have more intelligent naming and optionally handle compression etc.
+          zstd < output/qcow2/disk.qcow2 > ${{ matrix.os }}-bootc-cloud-${{ matrix.tag }}.qcow2.zst
+          rm output -rf
+
+      - name: Push
+        run: |
+          oras push --debug --registry-config auth.json ${{ env.DISKIMAGE_REGISTRY }}/${{ github.actor }}/${{ matrix.os }}-bootc-cloud-disk:${{ matrix.tag }} \
+            ${{ matrix.os }}-bootc-cloud-${{ matrix.tag }}.qcow2.zst:application/x-qemu-qcow2+zstd
