@@ -3,5 +3,5 @@
 FROM quay.io/centos-bootc/fedora-bootc-dev:eln
 RUN dnf -y install cloud-init && \
     ln -s ../cloud-init.target /usr/lib/systemd/system/default.target.wants && \
-    rm /var/log/*.log /var/lib/dnf -rf && ostree container commit
+    rm -rf /var/{cache,log} /var/lib/{dnf,rhsm} -rf && ostree container commit
 COPY usr usr
