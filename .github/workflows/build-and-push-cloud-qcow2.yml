@@ -65,6 +65,7 @@ jobs:
 
       - name: Push
         run: |
-          oras push --debug  --registry-config auth.json \
-            ${{ env.DISKIMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.os }}-bootc-cloud-disk:${{ matrix.tag }} \
+          IMAGE_NAME=${{ env.DISKIMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.os }}-bootc-cloud-disk:${{ matrix.tag }}
+          IMAGE_NAME=$(echo $IMAGE_NAME | tr '[A-Z]' '[a-z]')
+          oras push --debug  --registry-config auth.json $IMAGE_NAME \
             ${{ matrix.os }}-bootc-cloud-${{ matrix.tag }}.qcow2.zst:application/x-qemu-qcow2+zstd
