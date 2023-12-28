@@ -14,9 +14,6 @@ env:
 jobs:
   build-and-push-cloud-qcow2-image:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
 
     strategy:
       matrix:
@@ -71,5 +68,5 @@ jobs:
       - name: Push
         run: |
           oras push --debug --registry-config auth.json \
-            ${{ DISKIMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.os }}-bootc-cloud-disk:${{ matrix.tag }} \
+            ghcr.io/${{ github.repository_owner }}/${{ matrix.os }}-bootc-cloud-disk:${{ matrix.tag }} \
             ${{ matrix.os }}-bootc-cloud-${{ matrix.tag }}.qcow2.zst:application/x-qemu-qcow2+zstd
