@@ -42,10 +42,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
-      # - name: Login to quay.io
-      #   run: podman login --authfile auth.json -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} ${{ env.DISKIMAGE_REGISTRY }}
-      - name: Log in to registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u $ --password-stdin
+      - name: Login to quay.io
+        run: podman login --authfile auth.json -u ${{ github.triggering_actor }} --password ${{ secrets.GITHUB_TOKEN }} ${{ env.DISKIMAGE_REGISTRY }}
 
       - name: Build
         run: |
@@ -67,6 +65,6 @@ jobs:
 
       - name: Push
         run: |
-          oras push --debug \
-            ghcr.io/${{ github.repository_owner }}/${{ matrix.os }}-bootc-cloud-disk:${{ matrix.tag }} \
+          oras push --debug  --registry-config auth.json \
+            ${{ env.DISKIMAGE_REGISTRY }}/${{ github.repository_owner }}/${{ matrix.os }}-bootc-cloud-disk:${{ matrix.tag }} \
             ${{ matrix.os }}-bootc-cloud-${{ matrix.tag }}.qcow2.zst:application/x-qemu-qcow2+zstd
