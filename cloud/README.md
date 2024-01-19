@@ -12,6 +12,9 @@ can be used in any virtualization/IaaS system that is
 such as [libvirt](https://blog.wikichoon.com/2020/09/virt-install-cloud-init.html),
 AWS, etc.
 
+A good example reference for cloud-init is
+[the RHEL documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/configuring_and_managing_cloud-init_for_rhel_9/introduction-to-cloud-init_cloud-content).
+
 ## Pre-generated disk images
 
 There are pre-generated disk images available which can be launched directly.
@@ -54,3 +57,18 @@ $ zstd -d fedora-bootc-cloud-eln.qcow2.zst
 fedora-bootc-cloud-eln.qcow2.zst: 790560768 bytes
 $
 ```
+
+## Example virt-install invocation
+
+This is one example:
+
+```bash
+virt-install --cloud-init root-ssh-key=/path/to/your/ssh/key  --connect qemu:///system --import --name fedora-bootc-cloud --memory 4096 --disk /path/to/fedora-bootc-cloud-eln.qcow2 --os-variant rhel9-unknown
+```
+
+## Known bugs
+
+Because today `virt-install` appears to remove the cloud-init ISO, this will
+cause `cloud-init` to hang for several minutes on subsequent boots. To work
+around this right now, `rm /etc/systemd/system/cloud-init.target.wants/*` in the
+firstboot.
