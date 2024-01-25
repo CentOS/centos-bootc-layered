@@ -22,8 +22,8 @@ jobs:
         include:
           - os: fedora
             tag: eln
-          #- os: centos
-          #  tag: stream9
+          - os: centos
+            tag: stream9
 
     env:
       dir: cloud
