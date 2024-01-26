@@ -19,8 +19,10 @@ A good example reference for cloud-init is
 
 There are pre-generated disk images available which can be launched directly.
 
-(Note: as of right now there are only disk images for Fedora until
- [this issue](https://github.com/osbuild/bootc-image-builder/issues/18) is fixed)
+### Available images
+
+- ghcr.io/centos/fedora-bootc-cloud-disk:eln
+- ghcr.io/centos/centos-bootc-cloud-disk:stream9
 
 The disk images are stored as OCI artifacts; currently in the Github container
 registry until
