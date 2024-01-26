@@ -1,0 +1,9 @@
+# In practice you will need a base image with
+# a compatible kernel+driver
+FROM quay.io/centos-bootc/centos-bootc:stream9
+# Add our configuration
+COPY etc/ /etc/
+COPY usr/ /usr/
+RUN dnf -y module install nvidia-driver:545 && \
+    dnf install -y nvidia-container-toolkit && \
+    rm /var/log/*.log /var/lib/dnf -rf

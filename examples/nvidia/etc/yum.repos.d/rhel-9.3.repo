@@ -1,0 +1,17 @@
+[rhel-9.3-baseos]
+baseurl=https://rhsm-pulp.corp.redhat.com/content/dist/rhel9/9.3/$basearch/baseos/os/
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[rhel-9.3-appstream]
+baseurl=https://rhsm-pulp.corp.redhat.com/content/dist/rhel9/9.3/$basearch/appstream/os/
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+[rhel-9.3-nfv]
+baseurl=https://rhsm-pulp.corp.redhat.com/content/dist/rhel9/9.3/x86_64/nfv/os/
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
