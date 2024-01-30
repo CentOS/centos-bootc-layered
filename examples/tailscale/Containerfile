@@ -1,0 +1,8 @@
+# This is like https://tailscale.com/download/linux/centos-stream-9
+# except it happens as part of a container build!  You then need to do
+# `tailscale up` via some other mechanism.
+FROM quay.io/centos-bootc/centos-bootc:stream9
+RUN dnf config-manager --add-repo https://pkgs.tailscale.com/stable/centos/9/tailscale.repo && \
+    dnf -y install tailscale && \
+    dnf clean all && \
+    ln -s ../tailscaled.service /usr/lib/systemd/system/default.target.wants
