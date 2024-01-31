@@ -1,0 +1,4 @@
+#!/bin/sh
+while true; do
+    flatpak run org.gimp.GIMP
+done
